@@ -2,6 +2,7 @@
 config section 'general'
 	option debugLevel '0'
 	option bootmode '0'	# 0 First boot, 1 Run Autoconfig (you should set 1 each time you edit this file), 2 Current configuration.
+	option refresh_olsrd_config '1' #refresh olsrd conf on boot
 
 config section 'network'
 	option ip6addr_mesh '2001:4c00:893b:1:cab::1/128'	# Insert your IPv6 wireless address conforms with radio subnet at "http://wiki.ninux.org/GestioneIndirizzi"
