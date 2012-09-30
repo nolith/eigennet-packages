@@ -107,6 +107,7 @@ endef
 define Package/$(PKG_NAME)-bwtest-webui/install
 	@mkdir -p $(1)/www/cgi-bin || true
 	$(CP) src/index.html $(1)/www/index.html
+	$(CP) src/webui.html $(1)/www/webui.html
 	$(CP) src/bwtclient.cgi $(1)/www/cgi-bin/bwtclient.cgi
 	@chmod +x $(1)/www/cgi-bin/bwtclient.cgi
 	$(CP) src/startbwt.cgi $(1)/www/cgi-bin/startbwt.cgi
@@ -145,6 +146,7 @@ endef
 define Package/$(PKG_NAME)-pointing-webui/install
 	@mkdir -p $(1)/www/cgi-bin || true
 	$(CP) src/index.html $(1)/www/index.html
+	$(CP) src/webui.html $(1)/www/webui.html
 	$(CP) src/pointing.cgi $(1)/www/cgi-bin/pointing.cgi
 	@chmod +x $(1)/www/cgi-bin/pointing.cgi
 endef
