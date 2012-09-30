@@ -923,14 +923,9 @@ start()
 		ip link set up dev br-lan
 
 		sleep 10s
-
-		config_get refreshOlsrdConf general "refresh_olsrd_config" 1
-		[ $refreshOlsrdConf -eq 1 ] &&
-		{
-			configureOlsrd4
-			configureOlsrd6
-		}
-
+		
+		configureOlsrd4
+		configureOlsrd6
 		configureSplash
 		configureGateway
 		
