@@ -824,6 +824,8 @@ configureUhttpd()
 			/etc/init.d/uhttpd enable
 			uci set      uhttpd.main.listen_http="0.0.0.0:80"
 			uci add_list uhttpd.main.listen_http="[::]:80"
+			#if there's no luci use index.html
+			[ ! -e /www/index.html ] && cp /www/index-webui.html /www/index.html
 	fi
 }
 

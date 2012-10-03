@@ -43,10 +43,16 @@ define Package/$(PKG_NAME)-bwtest
 	DEPENDS:=+pv
 endef
 
+define Package/$(PKG_NAME)-webui
+	$(call Package/$(PKG_NAME)/template)
+	TITLE:=Minimal WebUI
+	DEPENDS:=+uhttpd
+endef
+
 define Package/$(PKG_NAME)-bwtest-webui
 	$(call Package/$(PKG_NAME)/template)
 	TITLE:=Bandwidth Measurement Tool (need busybox nc -l)
-	DEPENDS:=+$(PKG_NAME)-bwtest +uhttpd
+	DEPENDS:=+$(PKG_NAME)-bwtest +$(PKG_NAME)-webui
 endef
 
 define Package/$(PKG_NAME)-crda
@@ -81,7 +87,7 @@ endef
 define Package/$(PKG_NAME)-pointing-webui
 	$(call Package/$(PKG_NAME)/template)
 	TITLE:=eigenNet antenna pointing tools
-	DEPENDS:=+$(PKG_NAME)-pointing +uhttpd
+	DEPENDS:=+$(PKG_NAME)-pointing +$(PKG_NAME)-webui
 endef
 
 define Package/$(PKG_NAME)-reghack
@@ -104,10 +110,14 @@ define Package/$(PKG_NAME)-bwtest/install
 	@chmod +x $(1)/etc/init.d/bwtserver
 endef
 
+define Package/$(PKG_NAME)-webui/install
+	@mkdir -p $(1)/www || true
+	$(CP) src/index-webui.html $(1)/www/index-webui.html
+	$(CP) src/webui.html $(1)/www/webui.html
+endef
+
 define Package/$(PKG_NAME)-bwtest-webui/install
 	@mkdir -p $(1)/www/cgi-bin || true
-	$(CP) src/index.html $(1)/www/index.html
-	$(CP) src/webui.html $(1)/www/webui.html
 	$(CP) src/bwtclient.cgi $(1)/www/cgi-bin/bwtclient.cgi
 	@chmod +x $(1)/www/cgi-bin/bwtclient.cgi
 	$(CP) src/startbwt.cgi $(1)/www/cgi-bin/startbwt.cgi
@@ -145,8 +155,6 @@ endef
 
 define Package/$(PKG_NAME)-pointing-webui/install
 	@mkdir -p $(1)/www/cgi-bin || true
-	$(CP) src/index.html $(1)/www/index.html
-	$(CP) src/webui.html $(1)/www/webui.html
 	$(CP) src/pointing.cgi $(1)/www/cgi-bin/pointing.cgi
 	@chmod +x $(1)/www/cgi-bin/pointing.cgi
 endef
@@ -172,6 +180,7 @@ define Build/Compile
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)-autoconf))
+$(eval $(call BuildPackage,$(PKG_NAME)-webui))
 $(eval $(call BuildPackage,$(PKG_NAME)-bwtest))
 $(eval $(call BuildPackage,$(PKG_NAME)-bwtest-webui))
 $(eval $(call BuildPackage,$(PKG_NAME)-crda))
